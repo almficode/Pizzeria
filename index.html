@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pizzeria Gigi – Arrecife, Lanzarote</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- ══ LOADER — pantalla de carga ══ -->
+  <style>
+    #gigi-loader {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: #1a0d06;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+    #gigi-loader.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+    .loader-pizza {
+      font-size: 72px;
+      line-height: 1;
+      animation: pizzaSpin 1s linear infinite;
+      margin-bottom: 28px;
+      filter: drop-shadow(0 0 24px rgba(140,94,60,0.5));
+    }
+    @keyframes pizzaSpin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+    .loader-logo {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 42px;
+      font-weight: 700;
+      font-style: italic;
+      color: #faf7f2;
+      letter-spacing: 0.02em;
+      margin-bottom: 40px;
+    }
+    .loader-bar-wrap {
+      width: 200px;
+      height: 3px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .loader-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: #8C5E3C;
+      border-radius: 99px;
+      transition: width 0.04s linear;
+    }
+    .loader-label {
+      margin-top: 16px;
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.25);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══ LOADER ══ -->
+  <div id="gigi-loader">
+    <div class="loader-pizza">🍕</div>
+    <div class="loader-logo">Gigi.</div>
+    <div class="loader-bar-wrap">
+      <div class="loader-bar-fill" id="loaderBar"></div>
+    </div>
+    <div class="loader-label">Preparando tu mesa…</div>
+  </div>
+
+  <script>
+    (function() {
+      var bar      = document.getElementById('loaderBar');
+      var loader   = document.getElementById('gigi-loader');
+      var duration = 1000; /* ms totales */
+      var start    = performance.now();
+
+      function tick(now) {
+        var elapsed  = now - start;
+        var progress = Math.min(elapsed / duration, 1);
+        bar.style.width = (progress * 100) + '%';
+
+        if (progress < 1) {
+          requestAnimationFrame(tick);
+        } else {
+          /* Pequeña pausa antes de ocultar para que se vea al 100% */
+          setTimeout(function() {
+            loader.classList.add('hidden');
+            /* Eliminar del DOM tras la transición */
+            setTimeout(function() { loader.remove(); }, 520);
+          }, 120);
+        }
+      }
+
+      requestAnimationFrame(tick);
+    })();
+  </script>
+
+  <!-- ══ NAVBAR ══ -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">Gigi.</a>
+      <ul class="nav-links">
+        <li><a href="#about">Nosotros</a></li>
+        <li><a href="#cartaCta">Carta</a></li>
+        <li><a href="#" class="galeria-open-link">Galería</a></li>
+        <li><a href="#asistente">Asistente IA</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+      <a href="tel:+34928814749" class="nav-cta">[ Reservar Mesa ↗ ]</a>
+      <button class="nav-burger" id="navBurger" aria-label="Menú">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="nav-mobile" id="navMobile">
+      <ul>
+        <li><a href="#about">Nosotros</a></li>
+        <li><a href="#cartaCta">Carta</a></li>
+        <li><a href="#" class="galeria-open-link">Galería</a></li>
+        <li><a href="#asistente">Asistente IA</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+        <li><a href="tel:+34928814749">Reservar Mesa</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ══ HERO ══ -->
+  <section class="hero" id="hero">
+    <div class="hero-bg" id="heroBg">
+      <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=1800&h=1200&fit=crop" alt="Pizzeria Gigi" />
+      <div class="hero-overlay"></div>
+    </div>
+    <div class="hero-content">
+      <p class="hero-tag">Arrecife, Lanzarote · Desde 1995</p>
+      <h1 class="hero-headline">Donde la Tradición<br/><em>Italiana</em> Cobra Vida.</h1>
+    </div>
+    <div class="hero-card">
+      <div class="hero-card-photo">
+        <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/04/14/cc/02/vegetarian-pizza.jpg?w=300&h=300&s=1" alt="Pizza" />
+      </div>
+      <div class="hero-card-body">
+        <p class="hero-card-desc">Más de 438 opiniones y Premio Travellers' Choice en TripAdvisor</p>
+        <div class="hero-card-stat">
+          <span class="hero-card-num">438+</span>
+          <span class="hero-card-label">Opiniones</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-brand" id="heroBrand">PIZZERIA GIGI</div>
+    <div class="hero-scroll">
+      <span>Scroll</span>
+      <div class="hero-scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ══ CONTENIDO ══ -->
+  <div class="page-content">
+
+    <!-- ══ ABOUT ══ -->
+    <section class="about" id="about">
+      <div class="about-inner">
+        <div class="about-left reveal-up">
+          <div class="label">[ Sobre Nosotros ]</div>
+          <h2 class="about-title">Auténtica Pizzería<br/><em>Italiana</em> en Lanzarote</h2>
+          <p class="about-text">
+            Pizzeria Gigi es una auténtica pizzería italiana en el corazón de Arrecife.
+            Con más de 438 opiniones y el prestigioso premio Travellers' Choice de TripAdvisor,
+            somos reconocidos como uno de los mejores restaurantes italianos de Lanzarote.
+            Nuestra masa se elabora a mano cada día con ingredientes importados directamente de Italia.
+          </p>
+          <a href="#carta" class="btn-outline">[ Ver Nuestra Carta → ]</a>
+        </div>
+
+        <!-- Imagen con slide desde derecha + efecto 3D -->
+        <div class="about-right reveal-right" id="about3DCard">
+          <div class="about-3d-inner">
+            <div class="about-img-stack">
+              <div class="about-img-main">
+                <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0d/04/af/fb/pizzeria-italiana-gigi.jpg?w=900&h=600&s=1" alt="Interior Pizzeria Gigi" />
+              </div>
+              <div class="about-img-float">
+                <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/04/14/cc/02/vegetarian-pizza.jpg?w=400&h=400&s=1" alt="Pizza artesanal" />
+              </div>
+              <div class="about-3d-badge">
+                <span>🏆</span>
+                <div>
+                  <strong>Travellers' Choice</strong>
+                  <span>TripAdvisor 2024</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ GALERÍA — sticky scatter, texto en el centro, fotos en esquinas ══ -->
+    <div class="galeria-wrapper" id="galeriaWrapper">
+      <section class="galeria" id="galeria">
+
+        <!-- Las 4 fotos — arrancan apiladas en el centro, se abren a sus esquinas -->
+        <div class="galeria-item g-item-1" id="gItem1">
+          <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=700&h=900&fit=crop" alt="Margherita" />
+          <div class="galeria-item-label">Margherita</div>
+        </div>
+        <div class="galeria-item g-item-2" id="gItem2">
+          <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=700&h=900&fit=crop" alt="Diavola" />
+          <div class="galeria-item-label">Diavola</div>
+        </div>
+        <div class="galeria-item g-item-3" id="gItem3">
+          <img src="https://images.unsplash.com/photo-1571997478779-2adcbbe9ab2f?w=700&h=900&fit=crop" alt="Quattro Formaggi" />
+          <div class="galeria-item-label">Quattro Formaggi</div>
+        </div>
+        <div class="galeria-item g-item-4" id="gItem4">
+          <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=700&h=900&fit=crop" alt="Prosciutto e Funghi" />
+          <div class="galeria-item-label">Prosciutto e Funghi</div>
+        </div>
+
+        <!-- Historia — en el centro absoluto de la sección, aparece conforme las fotos se abren -->
+        <div class="galeria-story" id="galeriaStory">
+          <span class="galeria-story-tag">[ Est. 1995 — Arrecife, Lanzarote ]</span>
+          <h2 class="galeria-story-title">Una Historia<br/>de <em>Tradición</em></h2>
+          <p class="galeria-story-text">
+            Desde hace tres décadas, Pizzeria Gigi lleva el alma de Nápoles al corazón de Arrecife. Nuestra masa se amasa a mano cada mañana con levadura madre de fermentación lenta, el tomate San Marzano llega directamente del Vesubio y el horno de piedra alcanza los 400°C para crear la pizza perfecta.
+          </p>
+        </div>
+
+      </section>
+    </div>
+
+    <!-- ══ CARTA — carousel estilo Apple Cards ══ -->
+    <section class="carta" id="carta">
+      <div class="carta-inner">
+        <div class="carta-header reveal-up" id="cartaCta">
+          <div class="label">[ Nuestra Carta ]</div>
+          <h2 class="carta-title">DESCUBRE<br/><em>NUESTRAS PIZZAS</em></h2>
+          <p class="carta-subtitle">Arrastra para explorar. Haz clic para saber más.</p>
+        </div>
+
+        <div class="carta-carousel-wrap">
+          <div class="carta-carousel" id="cartaCarousel">
+
+            <div class="carta-card" data-name="Margherita" data-cat="Clásica" data-desc="La reina de las pizzas. Tomate San Marzano, mozzarella fior di latte importada y albahaca fresca del huerto. Simple. Perfecta." data-price="12€" data-img="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=800&h=600&fit=crop">
+              <div class="carta-card-img">
+                <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=800&h=600&fit=crop" alt="Margherita" />
+              </div>
+              <div class="carta-card-info">
+                <h3 class="carta-card-name">Margherita</h3>
+                <p class="carta-card-desc">Tomate San Marzano, mozzarella fior di latte importada y albahaca fresca del huerto. Simple. Perfecta.</p>
+                <div class="carta-card-footer">
+                  <span class="carta-card-price">12€</span>
+                  <span class="carta-card-link">Ver más →</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="carta-card" data-name="Diavola" data-cat="Picante" data-desc="Para los valientes. Salame piccante napolitano, mozzarella cremosa, olivas negras y un toque de guindilla. El calor del Vesubio en cada bocado." data-price="14€" data-img="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&h=600&fit=crop">
+              <div class="carta-card-img">
+                <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&h=600&fit=crop" alt="Diavola" />
+              </div>
+              <div class="carta-card-info">
+                <h3 class="carta-card-name">Diavola</h3>
+                <p class="carta-card-desc">Salame piccante napolitano, mozzarella cremosa, olivas negras y guindilla. El calor del Vesubio en cada bocado.</p>
+                <div class="carta-card-footer">
+                  <span class="carta-card-price">14€</span>
+                  <span class="carta-card-link">Ver más →</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="carta-card" data-name="Quattro Formaggi" data-cat="Especial" data-desc="Un homenaje al queso. Gorgonzola DOP, parmigiano reggiano, mozzarella fior di latte y emmental suizo fundidos sobre una base de crema blanca. Indulgente y memorable." data-price="15€" data-img="https://images.unsplash.com/photo-1571997478779-2adcbbe9ab2f?w=800&h=600&fit=crop">
+              <div class="carta-card-img">
+                <img src="https://images.unsplash.com/photo-1571997478779-2adcbbe9ab2f?w=800&h=600&fit=crop" alt="Quattro Formaggi" />
+              </div>
+              <div class="carta-card-info">
+                <h3 class="carta-card-name">Quattro Formaggi</h3>
+                <p class="carta-card-desc">Gorgonzola DOP, parmigiano reggiano, mozzarella fior di latte y emmental sobre crema blanca. Indulgente.</p>
+                <div class="carta-card-footer">
+                  <span class="carta-card-price">15€</span>
+                  <span class="carta-card-link">Ver más →</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="carta-card" data-name="Prosciutto e Funghi" data-cat="Clásica" data-desc="El equilibrio perfecto. Prosciutto cotto, champiñones frescos salteados con ajo y perejil, mozzarella abundante y un chorrito de aceite de oliva virgen extra al salir del horno." data-price="14€" data-img="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=800&h=600&fit=crop">
+              <div class="carta-card-img">
+                <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=800&h=600&fit=crop" alt="Prosciutto e Funghi" />
+              </div>
+              <div class="carta-card-info">
+                <h3 class="carta-card-name">Prosciutto e Funghi</h3>
+                <p class="carta-card-desc">Prosciutto cotto, champiñones frescos con ajo y perejil, mozzarella y aceite de oliva virgen extra.</p>
+                <div class="carta-card-footer">
+                  <span class="carta-card-price">14€</span>
+                  <span class="carta-card-link">Ver más →</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="carta-card" data-name="Napolitana" data-cat="Del Mar" data-desc="Un clásico del litoral napolitano. Anchoas del Cantábrico, alcaparras de Pantelleria, olivas negras, tomate San Marzano y orégano silvestre. Intensa y adictiva." data-price="13€" data-img="https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=800&h=600&fit=crop">
+              <div class="carta-card-img">
+                <img src="https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=800&h=600&fit=crop" alt="Napolitana" />
+              </div>
+              <div class="carta-card-info">
+                <h3 class="carta-card-name">Napolitana</h3>
+                <p class="carta-card-desc">Anchoas del Cantábrico, alcaparras de Pantelleria, olivas negras y orégano silvestre. Intensa y adictiva.</p>
+                <div class="carta-card-footer">
+                  <span class="carta-card-price">13€</span>
+                  <span class="carta-card-link">Ver más →</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="carta-card" data-name="Vegetariana Gigi" data-cat="Vegetariana" data-desc="Nuestra apuesta verde. Pimientos asados, berenjena a la plancha, calabacín, tomates cherry, rúcula fresca al salir del horno y parmesano en lascas. Un jardín sobre masa madre." data-price="13€" data-img="https://images.unsplash.com/photo-1588315029754-2dd089d39a1a?w=800&h=600&fit=crop">
+              <div class="carta-card-img">
+                <img src="https://images.unsplash.com/photo-1588315029754-2dd089d39a1a?w=800&h=600&fit=crop" alt="Vegetariana Gigi" />
+              </div>
+              <div class="carta-card-info">
+                <h3 class="carta-card-name">Vegetariana Gigi</h3>
+                <p class="carta-card-desc">Pimientos asados, berenjena, calabacín, tomates cherry, rúcula fresca y parmesano en lascas.</p>
+                <div class="carta-card-footer">
+                  <span class="carta-card-price">13€</span>
+                  <span class="carta-card-link">Ver más →</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="carta-card" data-name="Carbonara" data-cat="Especial" data-desc="La pasta reinterpretada en pizza. Crema de yema de huevo, guanciale crujiente, pecorino romano, pimienta negra molida al momento y mozzarella. Una audacia que enamora." data-price="15€" data-img="https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?w=800&h=600&fit=crop">
+              <div class="carta-card-img">
+                <img src="https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?w=800&h=600&fit=crop" alt="Carbonara" />
+              </div>
+              <div class="carta-card-info">
+                <h3 class="carta-card-name">Carbonara</h3>
+                <p class="carta-card-desc">Crema de yema de huevo, guanciale crujiente, pecorino romano y pimienta negra molida al momento.</p>
+                <div class="carta-card-footer">
+                  <span class="carta-card-price">15€</span>
+                  <span class="carta-card-link">Ver más →</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="carta-cta reveal-up">
+          <a href="#" class="btn-carta-pdf" id="btnCartaPdf">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM6 4h5v7h7v9H6V4zm2 9h8v1H8v-1zm0 2h8v1H8v-1zm0 2h5v1H8v-1z"/></svg>
+            Ver Menú Completo en PDF
+          </a>
+          <p class="carta-cta-note">Carta actualizada · Temporada 2025</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ ASISTENTE IA — sección propia ══ -->
+    <section class="ai-section" id="asistente">
+      <div class="ai-section-inner">
+        <div class="ai-section-left reveal-up">
+          <div class="label" style="color:#e8c9a0">[ Asistente Virtual ]</div>
+          <h2 class="ai-section-title">Pregúntale<br/>a <em>Gigi</em></h2>
+          <p class="ai-section-desc">Nuestro asistente conoce toda la carta, los horarios, las alergias, los ingredientes y cualquier detalle del restaurante. Escríbele en español, inglés o el idioma que prefieras.</p>
+          <div class="ai-suggestions">
+            <p class="ai-suggestions-label">Preguntas frecuentes</p>
+            <button class="ai-suggestion-chip" data-q="¿Cuál es el horario del restaurante?">¿Cuál es el horario?</button>
+            <button class="ai-suggestion-chip" data-q="¿Qué pizzas recomendáis para alguien que no come carne?">Opciones vegetarianas</button>
+            <button class="ai-suggestion-chip" data-q="¿Cómo puedo hacer una reserva?">Hacer una reserva</button>
+            <button class="ai-suggestion-chip" data-q="¿Tenéis pizzas sin gluten?">¿Tenéis sin gluten?</button>
+            <button class="ai-suggestion-chip" data-q="¿Dónde estáis ubicados?">¿Dónde estáis?</button>
+            <button class="ai-suggestion-chip" data-q="¿Cuál es vuestra pizza más especial o recomendada?">Pizza recomendada</button>
+          </div>
+        </div>
+        <div class="ai-section-right reveal-up" style="transition-delay:0.15s">
+          <div class="ai-chat-embed" id="aiChatEmbed">
+            <div class="ai-embed-chat" id="aiEmbedChat">
+              <div class="ai-embed-header">
+                <div class="ai-embed-header-dot"></div>
+                <span>Asistente Gigi · En línea</span>
+              </div>
+              <div class="ai-embed-messages" id="aiEmbedMessages">
+                <div class="ai-embed-msg ai-embed-msg--bot">
+                  ¡Hola! Soy el asistente de <strong>Pizzeria Gigi</strong>. Pregúntame sobre nuestra carta, horarios, ubicación o cualquier cosa del restaurante. 🍕
+                </div>
+              </div>
+              <div class="ai-embed-input-row">
+                <input type="text" class="ai-embed-input" id="aiEmbedInput" placeholder="Escribe tu pregunta…" />
+                <button class="ai-embed-send" id="aiEmbedSend">
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M22 2L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ RESEÑAS — dos filas scroll continuo, sin badge TripAdvisor ══ -->
+    <section class="reviews" id="resenas">
+      <div class="reviews-inner">
+
+        <div class="reviews-header reveal-up">
+          <h2 class="reviews-title">LO QUE DICEN<br/><em>NUESTROS CLIENTES</em></h2>
+          <div class="reviews-meta">
+            <div class="reviews-stars">
+              <span class="ta-dot ta-dot--full"></span>
+              <span class="ta-dot ta-dot--full"></span>
+              <span class="ta-dot ta-dot--full"></span>
+              <span class="ta-dot ta-dot--full"></span>
+              <span class="ta-dot ta-dot--half"></span>
+            </div>
+            <span class="reviews-score">4.5 sobre 5 · 438 opiniones en TripAdvisor</span>
+          </div>
+        </div>
+
+        <!-- Fila 1 -->
+        <div class="reviews-marquee-row">
+          <div class="reviews-track reviews-track--right">
+            <div class="review-card">
+              <div class="review-top"><div class="reviewer-avatar">S</div><div class="reviewer-info"><span class="reviewer-name">Sarah M.</span><span class="reviewer-loc">Londres, Reino Unido</span></div></div>
+              <div class="review-bubbles"><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span></div>
+              <p class="review-text">"La mejor pizza italiana que he probado fuera de Italia. La masa es increíblemente ligera y crujiente."</p>
+              <span class="review-date">Febrero 2025</span>
+            </div>
+            <div class="review-card">
+              <div class="review-top"><div class="reviewer-avatar">C</div><div class="reviewer-info"><span class="reviewer-name">Carlos R.</span><span class="reviewer-loc">Madrid, España</span></div></div>
+              <div class="review-bubbles"><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span></div>
+              <p class="review-text">"Auténtica cocina italiana en Lanzarote. La pizza Margherita estaba deliciosa y el servicio fue excelente."</p>
+              <span class="review-date">Enero 2025</span>
+            </div>
+            <div class="review-card">
+              <div class="review-top"><div class="reviewer-avatar">A</div><div class="reviewer-info"><span class="reviewer-name">Anne-Marie D.</span><span class="reviewer-loc">París, Francia</span></div></div>
+              <div class="review-bubbles"><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--half"></span></div>
+              <p class="review-text">"Fantástico restaurante. Los ingredientes son de primera calidad y se nota que todo es casero."</p>
+              <span class="review-date">Diciembre 2024</span>
+            </div>
+            <div class="review-card">
+              <div class="review-top"><div class="reviewer-avatar">M</div><div class="reviewer-info"><span class="reviewer-name">Marco B.</span><span class="reviewer-loc">Milán, Italia</span></div></div>
+              <div class="review-bubbles"><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span></div>
+              <p class="review-text">"¡Y eso que soy italiano! La masa madre me recordó a la pizzería del barrio de mi abuela en Nápoles."</p>
+              <span class="review-date">Noviembre 2024</span>
+            </div>
+            <div class="review-card">
+              <div class="review-top"><div class="reviewer-avatar">L</div><div class="reviewer-info"><span class="reviewer-name">Laura K.</span><span class="reviewer-loc">Berlín, Alemania</span></div></div>
+              <div class="review-bubbles"><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span></div>
+              <p class="review-text">"Vinimos tres veces durante las vacaciones. La Diavola con guindilla es simplemente adictiva."</p>
+              <span class="review-date">Octubre 2024</span>
+            </div>
+            <!-- duplicado -->
+            <div class="review-card">
+              <div class="review-top"><div class="reviewer-avatar">S</div><div class="reviewer-info"><span class="reviewer-name">Sarah M.</span><span class="reviewer-loc">Londres, Reino Unido</span></div></div>
+              <div class="review-bubbles"><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span></div>
+              <p class="review-text">"La mejor pizza italiana que he probado fuera de Italia. La masa es increíblemente ligera y crujiente."</p>
+              <span class="review-date">Febrero 2025</span>
+            </div>
+            <div class="review-card">
+              <div class="review-top"><div class="reviewer-avatar">C</div><div class="reviewer-info"><span class="reviewer-name">Carlos R.</span><span class="reviewer-loc">Madrid, España</span></div></div>
+              <div class="review-bubbles"><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span></div>
+              <p class="review-text">"Auténtica cocina italiana en Lanzarote. La pizza Margherita estaba deliciosa y el servicio fue excelente."</p>
+              <span class="review-date">Enero 2025</span>
+            </div>
+            <div class="review-card">
+              <div class="review-top"><div class="reviewer-avatar">A</div><div class="reviewer-info"><span class="reviewer-name">Anne-Marie D.</span><span class="reviewer-loc">París, Francia</span></div></div>
+              <div class="review-bubbles"><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--half"></span></div>
+              <p class="review-text">"Fantástico restaurante. Los ingredientes son de primera calidad y se nota que todo es casero."</p>
+              <span class="review-date">Diciembre 2024</span>
+            </div>
+            <div class="review-card">
+              <div class="review-top"><div class="reviewer-avatar">M</div><div class="reviewer-info"><span class="reviewer-name">Marco B.</span><span class="reviewer-loc">Milán, Italia</span></div></div>
+              <div class="review-bubbles"><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span></div>
+              <p class="review-text">"¡Y eso que soy italiano! La masa madre me recordó a la pizzería del barrio de mi abuela en Nápoles."</p>
+              <span class="review-date">Noviembre 2024</span>
+            </div>
+            <div class="review-card">
+              <div class="review-top"><div class="reviewer-avatar">L</div><div class="reviewer-info"><span class="reviewer-name">Laura K.</span><span class="reviewer-loc">Berlín, Alemania</span></div></div>
+              <div class="review-bubbles"><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span></div>
+              <p class="review-text">"Vinimos tres veces durante las vacaciones. La Diavola con guindilla es simplemente adictiva."</p>
+              <span class="review-date">Octubre 2024</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fila 2 -->
+        <div class="reviews-marquee-row">
+          <div class="reviews-track reviews-track--right reviews-track--slow">
+            <div class="review-card">
+              <div class="review-top"><div class="reviewer-avatar">J</div><div class="reviewer-info"><span class="reviewer-name">John P.</span><span class="reviewer-loc">Dublin, Irlanda</span></div></div>
+              <div class="review-bubbles"><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span></div>
+              <p class="review-text">"Hidden gem in Arrecife. Authentic Italian pizza that rivals anything I've had in Rome. Incredible value."</p>
+              <span class="review-date">Marzo 2025</span>
+            </div>
+            <div class="review-card">
+              <div class="review-top"><div class="reviewer-avatar">P</div><div class="reviewer-info"><span class="reviewer-name">Pilar G.</span><span class="reviewer-loc">Barcelona, España</span></div></div>
+              <div class="review-bubbles"><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span></div>
+              <p class="review-text">"La terraza es un sueño. Cenamos allí con la familia y los niños pidieron repetir a la noche siguiente."</p>
+              <span class="review-date">Agosto 2024</span>
+            </div>
+            <div class="review-card">
+              <div class="review-top"><div class="reviewer-avatar">H</div><div class="reviewer-info"><span class="reviewer-name">Hans W.</span><span class="reviewer-loc">Múnich, Alemania</span></div></div>
+              <div class="review-bubbles"><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--half"></span></div>
+              <p class="review-text">"Ausgezeichnet! The Quattro Formaggi was absolutely perfect. The dough is so light and airy."</p>
+              <span class="review-date">Julio 2024</span>
+            </div>
+            <div class="review-card">
+              <div class="review-top"><div class="reviewer-avatar">R</div><div class="reviewer-info"><span class="reviewer-name">Rosa T.</span><span class="reviewer-loc">Sevilla, España</span></div></div>
+              <div class="review-bubbles"><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span></div>
+              <p class="review-text">"Llevamos yendo cinco años en cada visita a Lanzarote. Siempre el mismo nivel de calidad impecable."</p>
+              <span class="review-date">Junio 2024</span>
+            </div>
+            <div class="review-card">
+              <div class="review-top"><div class="reviewer-avatar">T</div><div class="reviewer-info"><span class="reviewer-name">Thomas N.</span><span class="reviewer-loc">Amsterdam, Holanda</span></div></div>
+              <div class="review-bubbles"><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span></div>
+              <p class="review-text">"Best Italian food on the island, no doubt. The wood-fired oven makes all the difference."</p>
+              <span class="review-date">Mayo 2024</span>
+            </div>
+            <!-- duplicado -->
+            <div class="review-card">
+              <div class="review-top"><div class="reviewer-avatar">J</div><div class="reviewer-info"><span class="reviewer-name">John P.</span><span class="reviewer-loc">Dublin, Irlanda</span></div></div>
+              <div class="review-bubbles"><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span></div>
+              <p class="review-text">"Hidden gem in Arrecife. Authentic Italian pizza that rivals anything I've had in Rome. Incredible value."</p>
+              <span class="review-date">Marzo 2025</span>
+            </div>
+            <div class="review-card">
+              <div class="review-top"><div class="reviewer-avatar">P</div><div class="reviewer-info"><span class="reviewer-name">Pilar G.</span><span class="reviewer-loc">Barcelona, España</span></div></div>
+              <div class="review-bubbles"><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span></div>
+              <p class="review-text">"La terraza es un sueño. Cenamos allí con la familia y los niños pidieron repetir a la noche siguiente."</p>
+              <span class="review-date">Agosto 2024</span>
+            </div>
+            <div class="review-card">
+              <div class="review-top"><div class="reviewer-avatar">H</div><div class="reviewer-info"><span class="reviewer-name">Hans W.</span><span class="reviewer-loc">Múnich, Alemania</span></div></div>
+              <div class="review-bubbles"><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--half"></span></div>
+              <p class="review-text">"Ausgezeichnet! The Quattro Formaggi was absolutely perfect. The dough is so light and airy."</p>
+              <span class="review-date">Julio 2024</span>
+            </div>
+            <div class="review-card">
+              <div class="review-top"><div class="reviewer-avatar">R</div><div class="reviewer-info"><span class="reviewer-name">Rosa T.</span><span class="reviewer-loc">Sevilla, España</span></div></div>
+              <div class="review-bubbles"><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span></div>
+              <p class="review-text">"Llevamos yendo cinco años en cada visita a Lanzarote. Siempre el mismo nivel de calidad impecable."</p>
+              <span class="review-date">Junio 2024</span>
+            </div>
+            <div class="review-card">
+              <div class="review-top"><div class="reviewer-avatar">T</div><div class="reviewer-info"><span class="reviewer-name">Thomas N.</span><span class="reviewer-loc">Amsterdam, Holanda</span></div></div>
+              <div class="review-bubbles"><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span><span class="bubble bubble--full"></span></div>
+              <p class="review-text">"Best Italian food on the island, no doubt. The wood-fired oven makes all the difference."</p>
+              <span class="review-date">Mayo 2024</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="reviews-cta reveal-up">
+          <a href="https://www.tripadvisor.es/Restaurant_Review-g662247-d786385-Reviews-Pizzeria_Dagigi-Arrecife_Lanzarote_Canary_Islands.html" target="_blank" class="ta-link">
+            Ver todas las opiniones en TripAdvisor ↗
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ RESERVAR MESA — rediseño completo ══ -->
+    <section class="reserva" id="reserva">
+      <div class="reserva-bg">
+        <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/04/14/cb/64/add-a-caption.jpg?w=1400&h=900&s=1" alt="Pizzeria Gigi terraza" />
+        <div class="reserva-overlay"></div>
+      </div>
+
+      <div class="reserva-inner">
+        <!-- Columna izquierda: texto -->
+        <div class="reserva-content reveal-up">
+          <p class="reserva-eyebrow">[ Reserva tu mesa ]</p>
+          <h2 class="reserva-title">Ven a <em>Gigi</em><br/>esta noche.</h2>
+          <p class="reserva-sub">Treinta años elaborando la mejor pizza de Lanzarote. Ingredientes importados de Italia, masa madre de fermentación lenta, horno de piedra a 400°C. Tu mesa te espera.</p>
+          <div class="reserva-tags">
+            <span>🍕 Pizza artesanal</span>
+            <span>🌿 Ingredientes de Italia</span>
+            <span>🏆 Travellers' Choice</span>
+          </div>
+        </div>
+
+        <!-- Columna derecha: card de reserva -->
+        <div class="reserva-card reveal-up" style="transition-delay:0.18s">
+          <div class="reserva-phone-block">
+            <span class="reserva-phone-label">Llámanos ahora</span>
+            <a href="tel:+34928814749" class="reserva-phone-number">+34 928 81 47 49</a>
+            <a href="tel:+34928814749" class="reserva-call-btn">
+              <span class="reserva-call-icon">📞</span>
+              Llamar y reservar mesa
+            </a>
+          </div>
+
+          <div class="reserva-divider"></div>
+
+          <div class="reserva-info-grid">
+            <div class="reserva-info-item">
+              <span class="reserva-info-icon">🕐</span>
+              <div>
+                <strong>Horario</strong>
+                <span>Lun – Vie · 12:00 – 23:00</span>
+                <span>Sáb – Dom · 11:00 – 23:30</span>
+              </div>
+            </div>
+            <div class="reserva-info-item">
+              <span class="reserva-info-icon">📍</span>
+              <div>
+                <strong>Dónde estamos</strong>
+                <span>C/ Dr. Ruperto González Negrín 4</span>
+                <span>Arrecife, Lanzarote</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="reserva-award">
+            <span class="reserva-award-badge">🏆</span>
+            <div>
+              <strong>Travellers' Choice 2024</strong>
+              <span>Uno de los mejores restaurantes de Arrecife</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Números flotantes de fondo -->
+      <div class="reserva-bg-text" aria-hidden="true">GIGI</div>
+    </section>
+
+    <!-- ══ FOOTER ══ -->
+    <footer class="footer" id="contacto">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <span class="footer-logo">Gigi.</span>
+          <p>Auténtica pizzería italiana<br/>en el corazón de Arrecife, Lanzarote.</p>
+          <div class="footer-socials">
+            <a href="#">IG</a>
+            <a href="#">FB</a>
+            <a href="#">TA</a>
+          </div>
+        </div>
+        <div class="footer-cols">
+          <div class="footer-col">
+            <h4>Menú</h4>
+            <ul>
+              <li><a href="#about">Nosotros</a></li>
+              <li><a href="#carta">Carta</a></li>
+              <li><a href="#galeria">Galería</a></li>
+              <li><a href="#contacto">Contacto</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Contacto</h4>
+            <ul>
+              <li>C/ Dr. Ruperto González Negrín 4 Bajo</li>
+              <li>Arrecife, Lanzarote</li>
+              <li><a href="tel:+34928814749">+34 928 81 47 49</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Horarios</h4>
+            <ul>
+              <li>Lun – Vie: 12:00 – 23:00</li>
+              <li>Sáb – Dom: 11:00 – 23:30</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2025 Pizzeria Gigi · Arrecife, Lanzarote</span>
+        <span>Hecho con ❤️ en Lanzarote</span>
+      </div>
+    </footer>
+
+  </div><!-- /page-content -->
+
+  <!-- ══ MODAL carta card ══ -->
+  <div class="carta-modal" id="cartaModal" aria-hidden="true">
+    <div class="carta-modal-bg" id="cartaModalBg"></div>
+    <div class="carta-modal-content" role="dialog">
+      <button class="carta-modal-close" id="cartaModalClose" aria-label="Cerrar">×</button>
+      <div class="carta-modal-img-wrap">
+        <img id="cartaModalImg" src="" alt="" />
+      </div>
+      <div class="carta-modal-body">
+        <span class="carta-modal-cat" id="cartaModalCat"></span>
+        <h2 class="carta-modal-name" id="cartaModalName"></h2>
+        <p class="carta-modal-desc" id="cartaModalDesc"></p>
+        <div class="carta-modal-footer">
+          <span class="carta-modal-price" id="cartaModalPrice"></span>
+          <a href="tel:+34928814749" class="btn-primary">[ Reservar Mesa ↗ ]</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ GALERÍA OVERLAY ══ -->
+  <div class="galeria-overlay" id="galeriaOverlay">
+    <div class="galeria-overlay-header">
+      <div>
+        <div class="label" style="color:var(--terracotta)">[ Galería ]</div>
+        <h2 class="galeria-overlay-title">Nuestra <em>Galería</em></h2>
+      </div>
+      <button class="galeria-overlay-close" id="galeriaOverlayClose">✕</button>
+    </div>
+    <div class="galeria-overlay-grid">
+
+      <!-- Columna 1 — sube lento -->
+      <div class="galeria-overlay-col">
+        <div class="galeria-col-inner galeria-col--up" style="animation-duration:32s">
+          <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=400&h=550&fit=crop" alt="Margherita" />
+          <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=550&fit=crop" alt="Diavola" />
+          <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400&h=550&fit=crop" alt="Pizza clásica" />
+          <img src="https://images.unsplash.com/photo-1571997478779-2adcbbe9ab2f?w=400&h=550&fit=crop" alt="Quattro Formaggi" />
+          <img src="https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=400&h=550&fit=crop" alt="Napolitana" />
+          <img src="https://images.unsplash.com/photo-1588315029754-2dd089d39a1a?w=400&h=550&fit=crop" alt="Vegetariana" />
+          <!-- duplicado para loop -->
+          <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=400&h=550&fit=crop" alt="Margherita" />
+          <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=550&fit=crop" alt="Diavola" />
+          <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400&h=550&fit=crop" alt="Pizza clásica" />
+          <img src="https://images.unsplash.com/photo-1571997478779-2adcbbe9ab2f?w=400&h=550&fit=crop" alt="Quattro Formaggi" />
+          <img src="https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=400&h=550&fit=crop" alt="Napolitana" />
+          <img src="https://images.unsplash.com/photo-1588315029754-2dd089d39a1a?w=400&h=550&fit=crop" alt="Vegetariana" />
+        </div>
+      </div>
+
+      <!-- Columna 2 — baja medio -->
+      <div class="galeria-overlay-col">
+        <div class="galeria-col-inner galeria-col--down" style="animation-duration:44s">
+          <img src="https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?w=400&h=550&fit=crop" alt="Carbonara" />
+          <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/cf/45/a8/pizzeria-dagigi.jpg?w=400&h=550&s=1" alt="Pizzeria Gigi" />
+          <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&h=550&fit=crop" alt="Restaurante" />
+          <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0d/04/af/fb/pizzeria-italiana-gigi.jpg?w=400&h=550&s=1" alt="Interior Gigi" />
+          <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&h=550&fit=crop" alt="Mesa restaurante" />
+          <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/04/14/cb/64/add-a-caption.jpg?w=400&h=550&s=1" alt="Terraza" />
+          <!-- duplicado -->
+          <img src="https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?w=400&h=550&fit=crop" alt="Carbonara" />
+          <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/cf/45/a8/pizzeria-dagigi.jpg?w=400&h=550&s=1" alt="Pizzeria Gigi" />
+          <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&h=550&fit=crop" alt="Restaurante" />
+          <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0d/04/af/fb/pizzeria-italiana-gigi.jpg?w=400&h=550&s=1" alt="Interior Gigi" />
+          <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&h=550&fit=crop" alt="Mesa restaurante" />
+          <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/04/14/cb/64/add-a-caption.jpg?w=400&h=550&s=1" alt="Terraza" />
+        </div>
+      </div>
+
+      <!-- Columna 3 — sube rápido -->
+      <div class="galeria-overlay-col">
+        <div class="galeria-col-inner galeria-col--up" style="animation-duration:26s">
+          <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=400&h=600&fit=crop&crop=center" alt="Margherita" />
+          <img src="https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?w=400&h=600&fit=crop" alt="Carbonara" />
+          <img src="https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=400&h=600&fit=crop" alt="Napolitana" />
+          <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/04/14/cc/02/vegetarian-pizza.jpg?w=400&h=550&s=1" alt="Pizza vegetariana" />
+          <img src="https://images.unsplash.com/photo-1588315029754-2dd089d39a1a?w=400&h=600&fit=crop" alt="Vegetariana Gigi" />
+          <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=600&fit=crop" alt="Diavola" />
+          <!-- duplicado -->
+          <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=400&h=600&fit=crop&crop=center" alt="Margherita" />
+          <img src="https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?w=400&h=600&fit=crop" alt="Carbonara" />
+          <img src="https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=400&h=600&fit=crop" alt="Napolitana" />
+          <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/04/14/cc/02/vegetarian-pizza.jpg?w=400&h=550&s=1" alt="Pizza vegetariana" />
+          <img src="https://images.unsplash.com/photo-1588315029754-2dd089d39a1a?w=400&h=600&fit=crop" alt="Vegetariana Gigi" />
+          <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=600&fit=crop" alt="Diavola" />
+        </div>
+      </div>
+
+      <!-- Columna 4 — baja lento -->
+      <div class="galeria-overlay-col">
+        <div class="galeria-col-inner galeria-col--down" style="animation-duration:38s">
+          <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0d/04/af/fb/pizzeria-italiana-gigi.jpg?w=400&h=550&s=1" alt="Interior Gigi" />
+          <img src="https://images.unsplash.com/photo-1571997478779-2adcbbe9ab2f?w=400&h=600&fit=crop" alt="Quattro Formaggi" />
+          <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/04/14/cb/64/add-a-caption.jpg?w=400&h=550&s=1" alt="Terraza Gigi" />
+          <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400&h=600&fit=crop" alt="Pizza clásica" />
+          <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/cf/45/a8/pizzeria-dagigi.jpg?w=400&h=550&s=1" alt="Pizzeria Gigi" />
+          <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&h=600&fit=crop" alt="Mesa restaurante" />
+          <!-- duplicado -->
+          <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0d/04/af/fb/pizzeria-italiana-gigi.jpg?w=400&h=550&s=1" alt="Interior Gigi" />
+          <img src="https://images.unsplash.com/photo-1571997478779-2adcbbe9ab2f?w=400&h=600&fit=crop" alt="Quattro Formaggi" />
+          <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/04/14/cb/64/add-a-caption.jpg?w=400&h=550&s=1" alt="Terraza Gigi" />
+          <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400&h=600&fit=crop" alt="Pizza clásica" />
+          <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/cf/45/a8/pizzeria-dagigi.jpg?w=400&h=550&s=1" alt="Pizzeria Gigi" />
+          <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&h=600&fit=crop" alt="Mesa restaurante" />
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+
+  <!-- ══ ASISTENTE IA ══ -->
+  <div id="gigiChat" class="gigi-chat">
+
+    <!-- Botón flotante -->
+    <button class="gigi-chat-fab" id="gigiChatFab" aria-label="Abrir asistente">
+      <span class="gigi-chat-fab-icon gigi-chat-fab-open">🍕</span>
+      <span class="gigi-chat-fab-icon gigi-chat-fab-close">✕</span>
+    </button>
+
+    <!-- Panel -->
+    <div class="gigi-chat-panel" id="gigiChatPanel">
+      <div class="gigi-chat-header">
+        <div class="gigi-chat-header-avatar">G</div>
+        <div class="gigi-chat-header-info">
+          <strong>Asistente Gigi</strong>
+          <span>Pregúntame lo que quieras</span>
+        </div>
+        <button class="gigi-chat-header-close" id="gigiChatClose">✕</button>
+      </div>
+
+      <!-- Área de chat -->
+      <div class="gigi-chat-body" id="gigiChatBody">
+        <div class="gigi-chat-messages" id="gigiChatMessages">
+          <div class="gigi-msg gigi-msg--bot">
+            <span>¡Hola! Soy el asistente de <strong>Pizzeria Gigi</strong>. Puedo ayudarte con nuestra carta, horarios, reservas o cualquier pregunta sobre el restaurante. 🍕</span>
+          </div>
+        </div>
+        <div class="gigi-chat-input-row">
+          <input type="text" class="gigi-chat-input" id="gigiChatInput" placeholder="Escribe tu pregunta…" />
+          <button class="gigi-chat-send" id="gigiChatSend">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M22 2L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    /* ── Fab ── */
+    .gigi-chat { position: fixed; bottom: 28px; right: 28px; z-index: 1000; font-family: 'Inter', system-ui, sans-serif; }
+    .gigi-chat-fab {
+      width: 60px; height: 60px; border-radius: 50%;
+      background: #8C5E3C; border: none; cursor: pointer;
+      box-shadow: 0 8px 28px rgba(140,94,60,0.45);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px; transition: transform 0.3s, box-shadow 0.3s;
+      position: relative; z-index: 2;
+    }
+    .gigi-chat-fab:hover { transform: scale(1.08); box-shadow: 0 14px 40px rgba(140,94,60,0.55); }
+    .gigi-chat-fab-icon { position: absolute; transition: opacity 0.2s, transform 0.2s; }
+    .gigi-chat-fab-close { opacity: 0; transform: scale(0.5); font-size: 18px; color: #fff; }
+    .gigi-chat.open .gigi-chat-fab-open { opacity: 0; transform: scale(0.5); }
+    .gigi-chat.open .gigi-chat-fab-close { opacity: 1; transform: scale(1); }
+
+    /* ── Panel ── */
+    .gigi-chat-panel {
+      position: absolute; bottom: 76px; right: 0;
+      width: 360px; border-radius: 20px;
+      background: #faf7f2;
+      box-shadow: 0 24px 80px rgba(26,13,6,0.25), 0 4px 16px rgba(26,13,6,0.12);
+      overflow: hidden;
+      opacity: 0; transform: translateY(16px) scale(0.96);
+      pointer-events: none;
+      transition: opacity 0.28s cubic-bezier(0.16,1,0.3,1), transform 0.28s cubic-bezier(0.16,1,0.3,1);
+    }
+    .gigi-chat.open .gigi-chat-panel { opacity: 1; transform: none; pointer-events: all; }
+
+    /* ── Header ── */
+    .gigi-chat-header {
+      background: #8C5E3C; padding: 18px 20px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .gigi-chat-header-avatar {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: rgba(255,255,255,0.18); color: #fff;
+      font-size: 16px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .gigi-chat-header-info { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+    .gigi-chat-header-info strong { font-size: 14px; font-weight: 600; color: #fff; }
+    .gigi-chat-header-info span { font-size: 11px; color: rgba(255,255,255,0.6); }
+    .gigi-chat-header-close {
+      background: rgba(255,255,255,0.15); border: none; color: #fff;
+      width: 28px; height: 28px; border-radius: 50%; font-size: 14px;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+    }
+    .gigi-chat-header-close:hover { background: rgba(255,255,255,0.28); }
+
+    /* ── Setup screen ── */
+    .gigi-chat-setup {
+      padding: 32px 24px; display: flex; flex-direction: column;
+      align-items: center; gap: 12px; text-align: center;
+    }
+    .gigi-chat-setup-icon { font-size: 36px; }
+    .gigi-chat-setup-title { font-size: 15px; font-weight: 600; color: #2d1409; }
+    .gigi-chat-setup-desc { font-size: 12px; color: #a08070; line-height: 1.6; }
+    .gigi-chat-key-input {
+      width: 100%; padding: 11px 14px; border: 1px solid #e6ddd0;
+      border-radius: 8px; font-size: 13px; outline: none;
+      background: #fff; color: #2d1409;
+      transition: border-color 0.2s;
+    }
+    .gigi-chat-key-input:focus { border-color: #8C5E3C; }
+    .gigi-chat-key-btn {
+      width: 100%; padding: 13px; background: #8C5E3C; color: #fff;
+      border: none; border-radius: 8px; font-size: 13px; font-weight: 600;
+      cursor: pointer; transition: background 0.2s;
+    }
+    .gigi-chat-key-btn:hover { background: #5C3A22; }
+
+    /* ── Messages ── */
+    .gigi-chat-body { display: flex; flex-direction: column; height: 400px; }
+    .gigi-chat-messages {
+      flex: 1; overflow-y: auto; padding: 20px 16px; display: flex;
+      flex-direction: column; gap: 12px;
+      scrollbar-width: thin; scrollbar-color: #e6ddd0 transparent;
+    }
+    .gigi-msg { max-width: 82%; padding: 11px 14px; border-radius: 14px; font-size: 13px; line-height: 1.55; }
+    .gigi-msg--bot {
+      background: #f0e9de; color: #2d1409; border-radius: 4px 14px 14px 14px;
+      align-self: flex-start;
+    }
+    .gigi-msg--user {
+      background: #8C5E3C; color: #fff; border-radius: 14px 14px 4px 14px;
+      align-self: flex-end;
+    }
+    .gigi-msg--typing { opacity: 0.5; font-style: italic; }
+    .gigi-msg--typing::after { content: '…'; animation: typingDots 1s infinite; }
+    @keyframes typingDots { 0%,100%{opacity:0.3} 50%{opacity:1} }
+
+    /* ── Input row ── */
+    .gigi-chat-input-row {
+      display: flex; gap: 8px; padding: 12px 16px;
+      border-top: 1px solid #e6ddd0; background: #fff;
+    }
+    .gigi-chat-input {
+      flex: 1; padding: 10px 12px; border: 1px solid #e6ddd0; border-radius: 8px;
+      font-size: 13px; outline: none; background: #faf7f2; color: #2d1409;
+      transition: border-color 0.2s;
+    }
+    .gigi-chat-input:focus { border-color: #8C5E3C; }
+    .gigi-chat-send {
+      width: 38px; height: 38px; flex-shrink: 0;
+      background: #8C5E3C; border: none; border-radius: 8px;
+      color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+    }
+    .gigi-chat-send:hover { background: #5C3A22; }
+    .gigi-chat-send svg { width: 16px; height: 16px; }
+    .gigi-chat-footer-note {
+      text-align: center; font-size: 11px; color: #a08070; padding: 6px 0 10px;
+      cursor: pointer; background: #fff; margin: 0;
+      transition: color 0.2s;
+    }
+    .gigi-chat-footer-note:hover { color: #8C5E3C; }
+  </style>
+
+  <script>
+  /* ══ PON AQUÍ TU API KEY DE OPENAI ══
+     Cuando despliegues en Vercel, reemplaza el valor de GIGI_AI_KEY
+     con tu clave real (empieza por sk-...)                          */
+  var GIGI_AI_KEY = '';
+
+  var GIGI_SYSTEM_PROMPT = [
+    'Eres el asistente virtual de Pizzeria Gigi, un restaurante italiano auténtico ubicado en C/ Dr. Ruperto González Negrín 4 Bajo, Arrecife, Lanzarote, España.',
+    'Teléfono: +34 928 81 47 49.',
+    'Horario: Lunes a Viernes 12:00–23:00, Sábado y Domingo 11:00–23:30.',
+    'El restaurante lleva abierto desde 1995 y ha ganado el premio Travellers\' Choice de TripAdvisor con más de 438 opiniones y una valoración de 4,5 sobre 5.',
+    'La masa se elabora a mano cada día con levadura madre de fermentación lenta. El tomate es San Marzano importado del Vesubio. El horno de piedra alcanza 400°C.',
+    'Carta de pizzas:',
+    '- Margherita (12€): Tomate San Marzano, mozzarella fior di latte y albahaca fresca.',
+    '- Diavola (14€): Salame piccante napolitano, mozzarella, olivas negras y guindilla.',
+    '- Quattro Formaggi (15€): Gorgonzola DOP, parmigiano reggiano, mozzarella fior di latte y emmental sobre crema blanca.',
+    '- Prosciutto e Funghi (14€): Prosciutto cotto, champiñones frescos con ajo y perejil, mozzarella y aceite de oliva virgen extra.',
+    '- Napolitana (13€): Anchoas del Cantábrico, alcaparras de Pantelleria, olivas negras y orégano silvestre.',
+    '- Vegetariana Gigi (13€): Pimientos asados, berenjena, calabacín, tomates cherry, rúcula fresca y parmesano en lascas.',
+    '- Carbonara (15€): Crema de yema de huevo, guanciale crujiente, pecorino romano y pimienta negra molida.',
+    'Para reservas recomienda llamar al +34 928 81 47 49.',
+    'Responde siempre en el mismo idioma en que te escriba el cliente. Sé amable, cálido y conciso. No inventes información que no tengas.',
+  ].join(' ');
+
+  /* ── Galería overlay ── */
+  var galeriaOverlay = document.getElementById('galeriaOverlay');
+  var galeriaClose   = document.getElementById('galeriaOverlayClose');
+  function openGaleria() {
+    galeriaOverlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeGaleria() {
+    galeriaOverlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  if (galeriaClose) galeriaClose.addEventListener('click', closeGaleria);
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeGaleria(); });
+  document.querySelectorAll('.galeria-open-link').forEach(function(el) {
+    el.addEventListener('click', function(e) { e.preventDefault(); openGaleria(); });
+  });
+
+  /* ── Floating chat widget ── */
+  (function() {
+    var fab      = document.getElementById('gigiChatFab');
+    var panel    = document.getElementById('gigiChatPanel');
+    var container= document.getElementById('gigiChat');
+    var closeBtn = document.getElementById('gigiChatClose');
+    var messages = document.getElementById('gigiChatMessages');
+    var textInput= document.getElementById('gigiChatInput');
+    var sendBtn  = document.getElementById('gigiChatSend');
+    var history  = [];
+
+    function toggleChat() { container.classList.toggle('open'); }
+    fab.addEventListener('click', toggleChat);
+    closeBtn.addEventListener('click', function() { container.classList.remove('open'); });
+
+    function addMsg(text, role) {
+      var div = document.createElement('div');
+      div.className = 'gigi-msg gigi-msg--' + (role === 'user' ? 'user' : 'bot');
+      div.innerHTML = text;
+      messages.appendChild(div);
+      messages.scrollTop = messages.scrollHeight;
+      return div;
+    }
+
+    async function sendMessage() {
+      var text = textInput.value.trim();
+      if (!text) return;
+      textInput.value = '';
+      addMsg(text, 'user');
+      history.push({ role: 'user', content: text });
+      var typing = addMsg('', 'bot');
+      typing.classList.add('gigi-msg--typing');
+      try {
+        var res = await fetch('https://api.openai.com/v1/chat/completions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + GIGI_AI_KEY },
+          body: JSON.stringify({ model: 'gpt-4o-mini', messages: [{ role: 'system', content: GIGI_SYSTEM_PROMPT }].concat(history), max_tokens: 400, temperature: 0.7 })
+        });
+        var data = await res.json();
+        if (data.error) throw new Error(data.error.message);
+        var reply = data.choices[0].message.content.trim();
+        history.push({ role: 'assistant', content: reply });
+        typing.classList.remove('gigi-msg--typing');
+        typing.innerHTML = reply;
+        messages.scrollTop = messages.scrollHeight;
+      } catch(e) {
+        typing.classList.remove('gigi-msg--typing');
+        typing.innerHTML = '⚠️ ' + (e.message || 'Error al conectar con el asistente.');
+      }
+    }
+
+    sendBtn.addEventListener('click', sendMessage);
+    textInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') sendMessage(); });
+  })();
+
+  /* ── Chat EMBED (sección propia) ── */
+  (function() {
+    var embedMsgs  = document.getElementById('aiEmbedMessages');
+    var embedInput = document.getElementById('aiEmbedInput');
+    var embedSend  = document.getElementById('aiEmbedSend');
+    var chips      = document.querySelectorAll('.ai-suggestion-chip');
+    var embedHistory = [];
+
+    function addEmbedMsg(text, role) {
+      var div = document.createElement('div');
+      div.className = 'ai-embed-msg ai-embed-msg--' + (role === 'user' ? 'user' : 'bot');
+      div.innerHTML = text;
+      embedMsgs.appendChild(div);
+      embedMsgs.scrollTop = embedMsgs.scrollHeight;
+      return div;
+    }
+
+    async function embedSendMsg(text) {
+      if (!text) return;
+      embedInput.value = '';
+      addEmbedMsg(text, 'user');
+      embedHistory.push({ role: 'user', content: text });
+      var typing = addEmbedMsg('', 'bot');
+      typing.classList.add('ai-embed-msg--typing');
+      typing.textContent = 'Escribiendo…';
+      try {
+        var res = await fetch('https://api.openai.com/v1/chat/completions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + GIGI_AI_KEY },
+          body: JSON.stringify({ model: 'gpt-4o-mini', messages: [{ role: 'system', content: GIGI_SYSTEM_PROMPT }].concat(embedHistory), max_tokens: 400, temperature: 0.7 })
+        });
+        var data = await res.json();
+        if (data.error) throw new Error(data.error.message);
+        var reply = data.choices[0].message.content.trim();
+        embedHistory.push({ role: 'assistant', content: reply });
+        typing.classList.remove('ai-embed-msg--typing');
+        typing.innerHTML = reply;
+        embedMsgs.scrollTop = embedMsgs.scrollHeight;
+      } catch(e) {
+        typing.classList.remove('ai-embed-msg--typing');
+        typing.innerHTML = '⚠️ ' + (e.message || 'Error al conectar con el asistente.');
+      }
+    }
+
+    embedSend.addEventListener('click', function() { embedSendMsg(embedInput.value.trim()); });
+    embedInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') embedSendMsg(embedInput.value.trim()); });
+    chips.forEach(function(chip) {
+      chip.addEventListener('click', function() { embedSendMsg(chip.dataset.q); });
+    });
+  })();
+  </script>
+
+</body>
+</html>
