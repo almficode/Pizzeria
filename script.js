@@ -170,6 +170,13 @@ document.addEventListener('DOMContentLoaded', () => {
       .trim();
   }
 
+  const cornerPhrases = [
+    'Desde 1995 en Arrecife',
+    'Horno de piedra a 400°C',
+    'Masa madre de fermentación lenta',
+    'Ingredientes italianos auténticos'
+  ];
+
   async function fetchGaleriaFolderImages() {
     try {
       const response = await fetch('Galeria/list.json', { cache: 'no-store' });
@@ -215,7 +222,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (images[index]) {
         img.src = images[index];
         img.alt = formatGalleryLabel(images[index]);
-        if (label) label.textContent = formatGalleryLabel(images[index]);
+        if (label) label.textContent = cornerPhrases[index] || formatGalleryLabel(images[index]);
         item.style.display = '';
       } else {
         item.style.display = 'none';
