@@ -177,13 +177,18 @@ document.addEventListener('DOMContentLoaded', () => {
       const text = await response.text();
       const parser = new DOMParser();
       const doc = parser.parseFromString(text, 'text/html');
-      const links = Array.from(doc.querySelectorAll('a'));
+      const baseUrl = new URL('galeria/', window.location.href);
+      const links = Array.from(doc.querySelectorAll('a[href]'));
       const images = links
         .map(link => link.getAttribute('href'))
+        .map(href => href && href.split('?')[0].split('#')[0])
         .filter(href => href && /\.(jpe?g|png|webp|gif|svg)$/i.test(href))
         .filter(href => !href.startsWith('../'))
-        .map(href => href.replace(/^\/+/, ''))
-        .map(href => 'galeria/' + href)
+        .map(href => {
+          const url = new URL(href, baseUrl);
+          return url.pathname.replace(/^\/+/, '');
+        })
+        .map(path => (path.startsWith('galeria/') ? path : 'galeria/' + path))
         .filter((value, index, self) => self.indexOf(value) === index);
       return images;
     } catch (error) {
