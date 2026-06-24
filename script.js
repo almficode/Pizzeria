@@ -162,6 +162,94 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  function formatGalleryLabel(src) {
+    const name = src.split('/').pop().replace(/\.[^.]+$/, '');
+    return name
+      .replace(/[-_]+/g, ' ')
+      .replace(/\b\w/g, c => c.toUpperCase())
+      .trim();
+  }
+
+  async function fetchGaleriaFolderImages() {
+    try {
+      const response = await fetch('galeria/');
+      if (!response.ok) throw new Error('No se pudo leer la carpeta galeria');
+      const text = await response.text();
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(text, 'text/html');
+      const links = Array.from(doc.querySelectorAll('a'));
+      const images = links
+        .map(link => link.getAttribute('href'))
+        .filter(href => href && /\.(jpe?g|png|webp|gif|svg)$/i.test(href))
+        .filter(href => !href.startsWith('../'))
+        .map(href => href.replace(/^\/+/, ''))
+        .map(href => 'galeria/' + href)
+        .filter((value, index, self) => self.indexOf(value) === index);
+      return images;
+    } catch (error) {
+      console.warn('Galería dinámica no disponible:', error);
+      return [];
+    }
+  }
+
+  async function populateGaleriaFromFolder() {
+    const images = await fetchGaleriaFolderImages();
+    if (!images.length) return;
+
+    const scatterItems = [gItem1, gItem2, gItem3, gItem4];
+    scatterItems.forEach((item, index) => {
+      if (!item) return;
+      const img = item.querySelector('img');
+      const label = item.querySelector('.galeria-item-label');
+      if (images[index]) {
+        img.src = images[index];
+        img.alt = formatGalleryLabel(images[index]);
+        if (label) label.textContent = formatGalleryLabel(images[index]);
+        item.style.display = '';
+      } else {
+        item.style.display = 'none';
+      }
+    });
+
+    const overlayGrid = document.getElementById('galeriaOverlayGrid');
+    if (!overlayGrid) return;
+    overlayGrid.innerHTML = '';
+
+    const columns = 4;
+    const durations = [32, 44, 26, 38];
+    for (let column = 0; column < columns; column += 1) {
+      const col = document.createElement('div');
+      col.className = 'galeria-overlay-col';
+      const inner = document.createElement('div');
+      inner.className = 'galeria-col-inner ' + (column % 2 === 0 ? 'galeria-col--up' : 'galeria-col--down');
+      inner.style.animationDuration = `${durations[column]}s`;
+
+      const slice = images.filter((_, idx) => idx % columns === column);
+      if (!slice.length) {
+        slice.push(images[column % images.length]);
+      }
+
+      slice.forEach(src => {
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = formatGalleryLabel(src);
+        inner.appendChild(img);
+      });
+
+      slice.forEach(src => {
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = formatGalleryLabel(src);
+        inner.appendChild(img);
+      });
+
+      col.appendChild(inner);
+      overlayGrid.appendChild(col);
+    }
+  }
+
+  populateGaleriaFromFolder();
+
   /* ── rAF loop unificado ── */
   let rafPending = false;
   function onScroll() {
