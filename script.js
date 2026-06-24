@@ -171,15 +171,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   async function fetchGaleriaFolderImages() {
-    try {
-      const response = await fetch('galeria/');
-      if (!response.ok) throw new Error('No se pudo leer la carpeta galeria');
-      const text = await response.text();
+    async function parseDirectoryIndex(html) {
       const parser = new DOMParser();
-      const doc = parser.parseFromString(text, 'text/html');
+      const doc = parser.parseFromString(html, 'text/html');
       const baseUrl = new URL('galeria/', window.location.href);
       const links = Array.from(doc.querySelectorAll('a[href]'));
-      const images = links
+      return links
         .map(link => link.getAttribute('href'))
         .map(href => href && href.split('?')[0].split('#')[0])
         .filter(href => href && /\.(jpe?g|png|webp|gif|svg)$/i.test(href))
@@ -190,7 +187,24 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .map(path => (path.startsWith('galeria/') ? path : 'galeria/' + path))
         .filter((value, index, self) => self.indexOf(value) === index);
-      return images;
+    }
+
+    try {
+      const response = await fetch('galeria/list.json');
+      if (response.ok) {
+        const data = await response.json();
+        if (Array.isArray(data)) return data.map(path => (path.startsWith('galeria/') ? path : 'galeria/' + path));
+        if (data && Array.isArray(data.images)) return data.images.map(path => (path.startsWith('galeria/') ? path : 'galeria/' + path));
+      }
+    } catch (error) {
+      console.warn('No se pudo cargar galeria/list.json:', error);
+    }
+
+    try {
+      const response = await fetch('galeria/');
+      if (!response.ok) throw new Error('No se pudo leer la carpeta galeria');
+      const text = await response.text();
+      return await parseDirectoryIndex(text);
     } catch (error) {
       console.warn('Galería dinámica no disponible:', error);
       return [];
