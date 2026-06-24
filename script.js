@@ -172,7 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function fetchGaleriaFolderImages() {
     try {
-      const response = await fetch('galeria/list.json', { cache: 'no-store' });
+      const response = await fetch('Galeria/list.json', { cache: 'no-store' });
       if (!response.ok) throw new Error('No se pudo cargar galeria/list.json');
       const data = await response.json();
       const images = Array.isArray(data)
@@ -191,10 +191,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     return [
-      'galeria/pizza-1.svg',
-      'galeria/pizza-2.svg',
-      'galeria/pizza-3.svg',
-      'galeria/pizza-4.svg'
+      'Galeria/pizza-1.svg',
+      'Galeria/pizza-2.svg',
+      'Galeria/pizza-3.svg',
+      'Galeria/pizza-4.svg'
     ];
   }
 
