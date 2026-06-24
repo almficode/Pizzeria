@@ -183,7 +183,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const normalized = images
         .map(path => String(path || '').trim())
         .filter(path => /\.(jpe?g|png|webp|gif|svg)$/i.test(path))
-        .map(path => path.startsWith('galeria/') ? path : 'galeria/' + path)
+        .map(path => {
+          const p = String(path || '').trim().replace(/^\/+/, '');
+          if (/^galeria\//i.test(p)) return p.replace(/^galeria\//i, 'Galeria/');
+          if (p.startsWith('Galeria/')) return p;
+          return 'Galeria/' + p;
+        })
         .filter((value, index, self) => self.indexOf(value) === index);
       if (normalized.length > 0) return normalized;
     } catch (error) {
