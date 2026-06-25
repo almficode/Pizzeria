@@ -1,4 +1,19 @@
-export default async function handler(req, res) {
+function parseJsonBody(req) {
+  return new Promise((resolve, reject) => {
+    let body = '';
+    req.on('data', chunk => { body += chunk; });
+    req.on('end', () => {
+      try {
+        resolve(body ? JSON.parse(body) : {});
+      } catch (error) {
+        reject(error);
+      }
+    });
+    req.on('error', reject);
+  });
+}
+
+module.exports = async function handler(req, res) {
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'POST');
     return res.status(405).json({ error: 'Method not allowed, use POST' });
@@ -11,7 +26,7 @@ export default async function handler(req, res) {
 
   let body;
   try {
-    body = await req.json();
+    body = await parseJsonBody(req);
   } catch (error) {
     return res.status(400).json({ error: 'Request body must be valid JSON' });
   }
@@ -37,7 +52,7 @@ export default async function handler(req, res) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`
+        'Authorization': 'Bearer ' + apiKey
       },
       body: JSON.stringify({
         model: 'gpt-4o-mini',
@@ -49,10 +64,10 @@ export default async function handler(req, res) {
 
     const data = await response.json();
     if (!response.ok) {
-      return res.status(response.status).json({ error: data.error?.message || 'Error from OpenAI' });
+      return res.status(response.status).json({ error: data.error ? data.error.message : 'Error from OpenAI' });
     }
 
-    const reply = data.choices?.[0]?.message?.content?.trim();
+    const reply = data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content ? data.choices[0].message.content.trim() : '';
     if (!reply) {
       return res.status(500).json({ error: 'OpenAI returned an invalid response' });
     }
@@ -61,4 +76,4 @@ export default async function handler(req, res) {
   } catch (error) {
     return res.status(500).json({ error: error.message || 'Error connecting to OpenAI' });
   }
-}
+};
