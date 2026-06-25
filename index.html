@@ -716,28 +716,9 @@
 
 
   <script>
-  /* ══ PON AQUÍ TU API KEY DE OPENAI ══
-     Cuando despliegues en Vercel, reemplaza el valor de GIGI_AI_KEY
-     con tu clave real (empieza por sk-...)                          */
-  var GIGI_AI_KEY = '';
-
-  var GIGI_SYSTEM_PROMPT = [
-    'Eres el asistente virtual de Pizzeria Gigi, un restaurante italiano auténtico ubicado en C/ Dr. Ruperto González Negrín 4 Bajo, Arrecife, Lanzarote, España.',
-    'Teléfono: +34 928 81 47 49.',
-    'Horario: Lunes a Viernes 12:00–23:00, Sábado y Domingo 11:00–23:30.',
-    'El restaurante lleva abierto desde 1995 y ha ganado el premio Travellers\' Choice de TripAdvisor con más de 438 opiniones y una valoración de 4,5 sobre 5.',
-    'La masa se elabora a mano cada día con levadura madre de fermentación lenta. El tomate es San Marzano importado del Vesubio. El horno de piedra alcanza 400°C.',
-    'Carta de pizzas:',
-    '- Margherita (12€): Tomate San Marzano, mozzarella fior di latte y albahaca fresca.',
-    '- Diavola (14€): Salame piccante napolitano, mozzarella, olivas negras y guindilla.',
-    '- Quattro Formaggi (15€): Gorgonzola DOP, parmigiano reggiano, mozzarella fior di latte y emmental sobre crema blanca.',
-    '- Prosciutto e Funghi (14€): Prosciutto cotto, champiñones frescos con ajo y perejil, mozzarella y aceite de oliva virgen extra.',
-    '- Napolitana (13€): Anchoas del Cantábrico, alcaparras de Pantelleria, olivas negras y orégano silvestre.',
-    '- Vegetariana Gigi (13€): Pimientos asados, berenjena, calabacín, tomates cherry, rúcula fresca y parmesano en lascas.',
-    '- Carbonara (15€): Crema de yema de huevo, guanciale crujiente, pecorino romano y pimienta negra molida.',
-    'Para reservas recomienda llamar al +34 928 81 47 49.',
-    'Responde siempre en el mismo idioma en que te escriba el cliente. Sé amable, cálido y conciso. No inventes información que no tengas.',
-  ].join(' ');
+  /* ══ Asistente IA conectado a back-end en Vercel ══
+     En Vercel, configura OPENAI_API_KEY en la sección de Variables de Entorno.
+     El frontend NO contiene la clave y llama a /api/openai para generar respuestas. */
 
   /* ── Galería overlay ── */
   var galeriaOverlay = document.getElementById('galeriaOverlay');
@@ -783,10 +764,10 @@
       typing.classList.add('ai-embed-msg--typing');
       typing.textContent = 'Escribiendo…';
       try {
-        var res = await fetch('https://api.openai.com/v1/chat/completions', {
+        var res = await fetch('/api/openai', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + GIGI_AI_KEY },
-          body: JSON.stringify({ model: 'gpt-4o-mini', messages: [{ role: 'system', content: GIGI_SYSTEM_PROMPT }].concat(embedHistory), max_tokens: 400, temperature: 0.7 })
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ messages: embedHistory })
         });
         var data = await res.json();
         if (data.error) throw new Error(data.error.message);
