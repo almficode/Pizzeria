@@ -770,9 +770,12 @@
           body: JSON.stringify({ messages: embedHistory })
         });
         var data = await res.json();
-        if (data.error) throw new Error(data.error.message || data.error);
-        var reply = (data.reply || '').trim();
-        if (!reply) throw new Error('Respuesta vacía del asistente');
+        if (data.error) throw new Error(data.error.message || data.error || 'Error del asistente');
+        var reply = (data.reply || (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || '').trim();
+        if (!reply) {
+          console.error('OpenAI response no tiene reply:', data);
+          throw new Error('Respuesta vacía del asistente');
+        }
         embedHistory.push({ role: 'assistant', content: reply });
         typing.classList.remove('ai-embed-msg--typing');
         typing.innerHTML = reply;
