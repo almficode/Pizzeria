@@ -4,7 +4,7 @@ Este proyecto incluye un asistente IA integrado y listo para desplegar en Vercel
 
 ## Cómo funciona
 
-- El frontend en `index.html` envía las preguntas del usuario a `/api/openai`.
+- El frontend en `index.html` carga `ai.js`, que envía las preguntas del usuario a `/api/openai`.
 - La función serverless en `api/openai.js` usa `OPENAI_API_KEY` para llamar a la API de OpenAI.
 - La clave nunca se expone en el navegador.
 
