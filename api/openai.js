@@ -55,7 +55,7 @@ module.exports = async function handler(req, res) {
         'Authorization': 'Bearer ' + apiKey
       },
       body: JSON.stringify({
-        model: 'gpt-4o-mini',
+        model: 'gpt-3.5-turbo',
         messages: [{ role: 'system', content: systemPrompt }, ...messages],
         max_tokens: 400,
         temperature: 0.7
