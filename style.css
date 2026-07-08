@@ -1179,22 +1179,106 @@ ul  { list-style: none; }
   .ai-section-inner { grid-template-columns: 1fr; gap: 48px; }
 }
 
+@media (max-width: 900px) {
+  .hero { min-height: 620px; padding-bottom: 56px; }
+  .hero-content { padding: 0 32px; }
+  .hero-headline { font-size: clamp(34px, 8vw, 56px); }
+  .hero-brand { font-size: clamp(50px, 16vw, 100px); }
+  .about { padding: 88px 32px 120px; }
+  .carta-header { padding: 100px 32px 40px; }
+  .carta-carousel { padding: 8px 32px 16px; }
+  .reviews-header { padding: 0 32px; }
+  .reviews-cta { padding: 24px 32px 0; }
+  .reserva-inner { padding: 80px 32px; }
+  .footer { padding: 60px 32px 0; }
+}
+
 @media (max-width: 768px) {
-  .ai-section { padding: 80px 24px; }
-  .navbar { padding: 0 24px; }
+  .ai-section { padding: 72px 20px; }
+  .navbar { padding: 0 20px; }
+  .nav-inner { height: 68px; gap: 20px; }
   .nav-links, .nav-cta { display: none; }
   .nav-burger { display: flex; }
-  .hero-content { padding: 0 24px; }
+  .nav-mobile { padding: 24px 20px; }
+  .hero { min-height: 560px; padding-bottom: 44px; }
+  .hero-content { padding: 0 20px; }
+  .hero-tag { font-size: 10px; margin-bottom: 12px; }
+  .hero-headline { font-size: clamp(30px, 8.6vw, 46px); line-height: 1.08; max-width: 12ch; }
+  .hero-scroll { display: none; }
   .hero-card { display: none; }
-  .about { padding: 80px 24px 120px; }
-  /* galería: ajustes ya manejados por JS en pantallas pequeñas */
-  .carta-header { padding: 80px 24px 32px; }
-  .carta-carousel { padding: 8px 24px 16px; }
-  .reviews-header { padding: 0 24px; }
-  .reviews-cta { padding: 24px 24px 0; }
-  .reserva-inner { padding: 80px 24px; }
-  .reserva-card { padding: 32px 24px; }
-  .footer { padding: 60px 24px 0; }
-  .footer-cols { grid-template-columns: 1fr 1fr; gap: 32px; }
+  .hero-brand { font-size: clamp(44px, 16vw, 82px); bottom: -10px; }
+  .about { padding: 72px 20px 96px; margin-top: -14px; border-radius: 20px 20px 0 0; }
+  .about-inner { gap: 36px; }
+  .about-left { padding-right: 0; }
+  .about-title { font-size: clamp(28px, 7.8vw, 38px); margin-bottom: 16px; }
+  .about-text { font-size: 15px; line-height: 1.75; margin-bottom: 24px; }
+  .about-img-float { width: 46%; bottom: -18px; right: -12px; border-width: 3px; }
+  .about-3d-badge { top: -12px; left: -12px; padding: 10px 14px; }
+  .galeria-wrapper { height: auto; }
+  .galeria {
+    position: relative;
+    height: auto;
+    min-height: auto;
+    padding: 40px 20px 56px;
+    overflow: visible;
+  }
+  .galeria-item {
+    position: relative;
+    width: 100%;
+    height: 220px;
+    opacity: 1;
+    top: auto;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    margin-bottom: 16px;
+  }
+  .galeria-item-label { font-size: 14px; padding: 48px 16px 14px; }
+  .galeria-story {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    width: auto;
+    min-width: 0;
+    padding: 8px 0 4px;
+    text-align: left;
+    opacity: 1;
+  }
+  .galeria-story-title { font-size: clamp(24px, 7vw, 32px); }
+  .galeria-story-text { font-size: 14px; }
+  .carta-header { padding: 80px 20px 28px; }
+  .carta-carousel { padding: 8px 20px 16px; }
+  .carta-card { flex-basis: min(84vw, 320px); }
+  .carta-cta { padding: 0 20px; }
+  .ai-section-title { font-size: clamp(28px, 7.8vw, 38px); }
+  .ai-section-desc { font-size: 15px; }
+  .ai-embed-messages { min-height: 260px; max-height: 300px; }
+  .reviews-header { padding: 0 20px; }
+  .reviews-cta { padding: 20px 20px 0; }
+  .reviews-cta .ta-link { width: 100%; justify-content: center; }
+  .reserva-inner { padding: 72px 20px; }
+  .reserva-card { padding: 24px 20px; }
+  .footer { padding: 48px 20px 0; }
+  .footer-cols { grid-template-columns: 1fr; gap: 28px; }
   .footer-bottom { flex-direction: column; gap: 8px; }
+}
+
+@media (max-width: 480px) {
+  .hero { min-height: 520px; }
+  .hero-headline { font-size: clamp(26px, 9vw, 36px); }
+  .hero-brand { font-size: 44px; bottom: -6px; }
+  .about { padding: 64px 16px 84px; }
+  .about-title { font-size: 26px; }
+  .about-text { font-size: 14px; }
+  .galeria { padding: 32px 16px 48px; }
+  .galeria-item { height: 190px; }
+  .carta-header { padding: 72px 16px 24px; }
+  .carta-carousel { padding: 8px 16px 16px; }
+  .carta-card { flex-basis: min(88vw, 300px); }
+  .ai-section { padding: 64px 16px; }
+  .reviews-header { padding: 0 16px; }
+  .reviews-cta { padding: 16px 16px 0; }
+  .reserva-inner { padding: 64px 16px; }
+  .footer { padding: 40px 16px 0; }
 }
