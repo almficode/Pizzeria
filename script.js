@@ -94,15 +94,6 @@ document.addEventListener('DOMContentLoaded', () => {
   function tickGaleriaScatter() {
     if (!galeriaWrapper || !galeriaSection) return;
 
-    /* En móvil muy pequeño: todo visible sin animación */
-    if (window.innerWidth < 480) {
-      [gItem1, gItem2, gItem3, gItem4].forEach(item => {
-        if (item) { item.style.opacity = '1'; item.style.transform = ''; }
-      });
-      if (galeriaStory) { galeriaStory.style.opacity = '1'; galeriaStory.style.transform = 'translate(-50%,-50%)'; }
-      return;
-    }
-
     /* Cuánto hemos scrolleado dentro del wrapper */
     const wrapperTop  = galeriaWrapper.getBoundingClientRect().top;
     const wrapperH    = galeriaWrapper.offsetHeight;

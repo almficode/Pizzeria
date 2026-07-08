@@ -510,8 +510,12 @@ ul  { list-style: none; }
 .carta-carousel {
   display: flex;
   gap: 24px;
-  overflow-x: scroll;
-  scroll-snap-type: x mandatory;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: none;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x;
+  overscroll-behavior-x: contain;
   padding: 8px 56px 16px;
   cursor: grab;
   -ms-overflow-style: none;
@@ -1214,36 +1218,29 @@ ul  { list-style: none; }
   .about-text { font-size: 15px; line-height: 1.75; margin-bottom: 24px; }
   .about-img-float { width: 46%; bottom: -18px; right: -12px; border-width: 3px; }
   .about-3d-badge { top: -12px; left: -12px; padding: 10px 14px; }
-  .galeria-wrapper { height: auto; }
+  .galeria-wrapper {
+    height: 220vh;
+  }
   .galeria {
-    position: relative;
-    height: auto;
-    min-height: auto;
-    padding: 40px 20px 56px;
-    overflow: visible;
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    min-height: 580px;
+    padding: 0;
+    overflow: hidden;
   }
   .galeria-item {
-    position: relative;
-    width: 100%;
-    height: 220px;
-    opacity: 1;
-    top: auto;
-    left: auto;
-    right: auto;
-    bottom: auto;
-    margin-bottom: 16px;
+    width: 38%;
+    height: 26%;
+    opacity: 0;
   }
-  .galeria-item-label { font-size: 14px; padding: 48px 16px 14px; }
+  .galeria-item-label { font-size: 13px; padding: 44px 14px 12px; }
   .galeria-story {
-    position: relative;
-    top: auto;
-    left: auto;
-    transform: none;
-    width: auto;
+    width: min(78vw, 320px);
     min-width: 0;
-    padding: 8px 0 4px;
-    text-align: left;
-    opacity: 1;
+    padding: 0;
+    text-align: center;
+    opacity: 0;
   }
   .galeria-story-title { font-size: clamp(24px, 7vw, 32px); }
   .galeria-story-text { font-size: 14px; }
@@ -1271,8 +1268,9 @@ ul  { list-style: none; }
   .about { padding: 64px 16px 84px; }
   .about-title { font-size: 26px; }
   .about-text { font-size: 14px; }
-  .galeria { padding: 32px 16px 48px; }
-  .galeria-item { height: 190px; }
+  .galeria { min-height: 520px; }
+  .galeria-item { width: 42%; height: 24%; }
+  .galeria-story { width: min(84vw, 280px); }
   .carta-header { padding: 72px 16px 24px; }
   .carta-carousel { padding: 8px 16px 16px; }
   .carta-card { flex-basis: min(88vw, 300px); }
