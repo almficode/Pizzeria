@@ -1205,12 +1205,12 @@ ul  { list-style: none; }
   .nav-burger { display: flex; }
   .nav-mobile { padding: 24px 20px; }
   .hero { min-height: 560px; padding-bottom: 44px; }
-  .hero-content { padding: 0 20px; }
+  .hero-content { padding: 0 20px; display: flex; flex-direction: column; align-items: flex-start; }
   .hero-tag { font-size: 10px; margin-bottom: 12px; }
-  .hero-headline { font-size: clamp(30px, 8.6vw, 46px); line-height: 1.08; max-width: 12ch; }
+  .hero-headline { font-size: clamp(30px, 8.6vw, 46px); line-height: 1.08; max-width: 11ch; }
   .hero-scroll { display: none; }
   .hero-card { display: none; }
-  .hero-brand { font-size: clamp(44px, 16vw, 82px); bottom: -10px; }
+  .hero-brand { font-size: clamp(44px, 16vw, 82px); bottom: -10px; white-space: normal; text-align: center; line-height: 0.95; max-width: 90vw; }
   .about { padding: 72px 20px 96px; margin-top: -14px; border-radius: 20px 20px 0 0; }
   .about-inner { gap: 36px; }
   .about-left { padding-right: 0; }
@@ -1263,8 +1263,8 @@ ul  { list-style: none; }
 
 @media (max-width: 480px) {
   .hero { min-height: 520px; }
-  .hero-headline { font-size: clamp(26px, 9vw, 36px); }
-  .hero-brand { font-size: 44px; bottom: -6px; }
+  .hero-headline { font-size: clamp(26px, 9vw, 36px); max-width: 100%; }
+  .hero-brand { font-size: 44px; bottom: -6px; max-width: 100%; white-space: nowrap; }
   .about { padding: 64px 16px 84px; }
   .about-title { font-size: 26px; }
   .about-text { font-size: 14px; }
