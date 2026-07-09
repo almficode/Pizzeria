@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Pizzeria Gigi favicon">
+  <rect width="64" height="64" rx="16" fill="#8C5E3C"/>
+  <circle cx="32" cy="32" r="18" fill="#F7E7C1"/>
+  <path d="M32 14a18 18 0 0 1 16 25L32 32Z" fill="#D94B1C"/>
+  <circle cx="32" cy="32" r="4" fill="#7A2E19"/>
+  <path d="M24 24c4-4 12-5 18-2" stroke="#8C5E3C" stroke-width="3" stroke-linecap="round"/>
+  <path d="M23 39c5 4 12 4 17 0" stroke="#8C5E3C" stroke-width="3" stroke-linecap="round"/>
+</svg>
